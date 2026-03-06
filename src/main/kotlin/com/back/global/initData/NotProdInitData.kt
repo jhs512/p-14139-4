@@ -3,6 +3,7 @@ package com.back.global.initData
 import com.back.domain.member.member.service.MemberService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.ApplicationRunner
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Lazy
@@ -26,6 +27,9 @@ class NotProdInitData(
         return ApplicationRunner {
             self.work1()
             self.work2()
+            self.get1Plus1()
+            self.get1Plus1()
+            self.get1Plus1()
         }
     }
 
@@ -40,5 +44,11 @@ class NotProdInitData(
         if (memberService.count() > 0L) return
 
         memberService.save("admin", "1234", "관리자")
+    }
+
+    @Cacheable("get1Plus1")
+    fun get1Plus1(): Int {
+        println("get1Plus1 run!")
+        return 1 + 1
     }
 }
